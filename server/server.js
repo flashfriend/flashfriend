@@ -6,7 +6,11 @@ const PORT = 3000;
 // HANDLE STATIC FILES + JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, '../client/public')));
+app.use('/', (req, res) => {
+  // res.sendFile(path.join(__dirname, '../client/public/index.html'))
+  res.send('Hello world')
+})
 
 // AUTH AND SESSION START
 // const cookieSession = require('cookie-session');

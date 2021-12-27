@@ -11,8 +11,6 @@ services:
       - ./client:/app/client
     ports:
       - "8080:8080"
-    networks:
-      - flashfriend-network
 
   server:
     container_name: flashfriend-server
@@ -24,15 +22,5 @@ services:
       - ./server:/app/server
     environment:
       - CONNECTION_STRING=postgres://noslmpys:O-kJmmJEe45rc2akphR_VvKASywNsf-A@castor.db.elephantsql.com/noslmpys
-    depends_on:
-      - client
     ports:
       - "3000:3000"
-    links:
-      - flashfriend-client
-    networks:
-      - flashfriend-network
-
-networks:
-  flashfriend-network:
-    driver: bridge
