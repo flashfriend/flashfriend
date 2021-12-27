@@ -1,0 +1,38 @@
+version: "3"
+services:
+
+  client:
+    container_name: flashfriend-client
+    build: 
+      dockerfile: Dockerfile
+      context: ./client
+    volumes:
+      - /app/client/node_modules
+      - ./client:/app/client
+    ports:
+      - "8080:8080"
+    networks:
+      - flashfriend-network
+
+  server:
+    container_name: flashfriend-server
+    build:
+      dockerfile: Dockerfile
+      context: ./server
+    volumes:
+      - /app/server/node_modules
+      - ./server:/app/server
+    environment:
+      - CONNECTION_STRING=postgres://noslmpys:O-kJmmJEe45rc2akphR_VvKASywNsf-A@castor.db.elephantsql.com/noslmpys
+    depends_on:
+      - client
+    ports:
+      - "3000:3000"
+    links:
+      - flashfriend-client
+    networks:
+      - flashfriend-network
+
+networks:
+  flashfriend-network:
+    driver: bridge
