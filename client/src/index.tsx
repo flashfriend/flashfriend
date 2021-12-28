@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'react-app-polyfill/ie9';
 import './index.css';
 import App from './App';
 import { store } from './app/store';
