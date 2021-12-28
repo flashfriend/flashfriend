@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Front() {
+function Front({ text }: { text: string }) {
   return (
     <div>
       FRONT
