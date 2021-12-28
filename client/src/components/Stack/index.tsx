@@ -1,10 +1,10 @@
 import TinderCard from 'react-tinder-card';
 import Front from './Front';
 import Back from './Back';
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import './Stack.css';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectDeck } from '../../features/deck/deckSlice';
+import { selectDeck, getCards } from '../../features/deck/deckSlice';
 
 
 function Stack() {
@@ -15,7 +15,6 @@ function Stack() {
   const [currentIndex, setCurrentIndex] = useState<number>(deck.length - 1);
   const [flipped, setFlipped] = useState<string>('front');
 
-
   const currentIndexRef = useRef(currentIndex);
 
   // const childRefs: React.RefObject<any>[] = useMemo(
@@ -25,6 +24,11 @@ function Stack() {
   //       .map((i) => React.createRef()),
   //   []
   // );
+
+  useEffect(() => {
+    console.log('use effect fired')
+    dispatch(getCards());
+  }, [flipped])
 
   const childRefs = useMemo(
     () => (

@@ -1,5 +1,6 @@
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
+const db = require('./models/cardModel')
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -16,8 +17,21 @@ passport.use(new GitHubStrategy({
 }, (accessToken, refreshToken, profile, done) => {
   // TODO: 
   // SQL 
-  const query = `INSERT INTO users (userid) VALUES (${profile.id})`;
-  
+  const queryStr = `INSERT INTO users (id) VALUES ($1))`;
+  const values = [profile.id]
+
+  // try {
+  //   db.query(queryStr, values)
+  //     .then(data => {
+  //       console.log(data);
+        
+  //       return next();
+  //     })
+  // } catch (err) {
+  //   console.log(err.stack)
+  //   return next(err.stack);
+  // }
+
 
   return done(null, profile);
 }

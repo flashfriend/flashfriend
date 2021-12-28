@@ -20,9 +20,10 @@ module.exports = {
       publicPath: '/',
     },
     historyApiFallback: true,
-    // proxy: {
-    //   '/api': 'http://localhost:3000/',
-    // }
+    proxy: {
+      '/login': 'http://localhost:3000/',
+      '/auth/': 'http://localhost:3000/'
+    }
   },
   module: {
     rules: [

@@ -42,8 +42,9 @@ export const deckSlice = createSlice({
   reducers: {
     getCards: (state) => {
       console.log('Getting cards');
-      // show cards[currentCard]
-      // get request
+      fetch('/api/cards/test')
+        .then(data => data.json())
+        .then(data => console.log(data))
     },
     addCard: (state, action: PayloadAction<Card>) => {
       console.log('Adding card');

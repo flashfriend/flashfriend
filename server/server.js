@@ -14,9 +14,14 @@ app.use(cors());
 
 app.use(express.static(path.join(__dirname, '../client/public')));
 
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  return next();
+})
+
 // LOG IN AND LOG OUT
 app.get('/login', (req, res) => {
-  res.redirect('/auth/github')
+  res.redirect('/auth/github');
 })
 
 app.get('/logout', (req, res) => {
@@ -61,25 +66,25 @@ app.get(
   '/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/auth/error' }),
   function (req, res) {
-    res.redirect('/home');
+    res.redirect('/home')
   }
 );
 
-// CARD ROUTES
-app.get('/cards', (req, res) => {
-  // DISPLAY ALL CARDS
-})
-app.post('/cards', (req, res) => {
-  // ADD NEW CARD
-  // { userId, front, back, hidden, tags, last_correct, last_incorrect, total_correct, total_incorrect } = req.body
-  // INSERT INTO cards ( )
-})
-app.put('/cards', (req, res) => {
-  // EDIT CARD
-})
-app.delete('/cards', (req, res) => {
-  // DELETE CARD
-})
+// // CARD ROUTES
+// app.get('/cards', (req, res) => {
+//   // DISPLAY ALL CARDS
+// })
+// app.post('/cards', (req, res) => {
+//   // ADD NEW CARD
+//   // { userId, front, back, hidden, tags, last_correct, last_incorrect, total_correct, total_incorrect } = req.body
+//   // INSERT INTO cards ( )
+// })
+// app.put('/cards', (req, res) => {
+//   // EDIT CARD
+// })
+// app.delete('/cards', (req, res) => {
+//   // DELETE CARD
+// })
 
 
 // ERROR HANDLING
