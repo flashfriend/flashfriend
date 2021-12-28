@@ -9,12 +9,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../client/public')));
 
-// Card Router
-const cardsRouter = require('./routers/cardsRouter');
-const cardsController = require('./controllers/cardsController');
-app.get('/api/cards', cardsController.getCards, (req, res) => {
-  res.status(200).json(res.locals.deck)
-});
 
 app.use(cors());
 
@@ -32,10 +26,14 @@ app.get('/logout', (req, res) => {
 })
 
 app.use('*',  (req, res, next)=> {
-  console.log(req._parsedOriginalUrl);
+  // console.log(req._parsedOriginalUrl);
   if (req._parsedOriginalUrl.pathname.includes('/auth') || req._parsedOriginalUrl.pathname.includes('/api')) next()
   else res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
- });
+});
+
+// Card Router
+const cardsRouter = require('./routers/cardsRouter');
+app.use('/api/cards', cardsRouter);
 
 // AUTH AND SESSION START
 const cookieSession = require('cookie-session');
