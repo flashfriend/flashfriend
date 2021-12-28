@@ -1,0 +1,31 @@
+version: "3"
+services:
+
+  client:
+    container_name: flashfriend-client
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    build: 
+      dockerfile: Dockerfile.dev
+      context: ./client
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    ports:
+      - 8080:8080
+    depends_on:
+      - flashfriend-server
+
+  server:
+    container_name: flashfriend-server
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+      CONNECTION_STRING: "postgres://noslmpys:O-kJmmJEe45rc2akphR_VvKASywNsf-A@castor.db.elephantsql.com/noslmpys"
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./server
+    volumes:
+      - /api/node_modules
+      - ./server:/api
+    ports:
+      - 3000:3000

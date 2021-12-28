@@ -1,0 +1,32 @@
+.swipe {
+  position: absolute;
+}
+
+.cardContainer {
+  width: 90vw;
+  max-width: 260px;
+  height: 300px;
+}
+
+.card {
+  position: relative;
+  width: 80vw;
+  max-width: 260px;
+  height: 300px;
+  border-radius: 20px;
+  background-size: cover;
+  background-position: center;
+  padding: 20px;
+}
+
+.buttons {
+  margin: 10px;
+  display: flex;
+}
+
+.button {
+  margin: 1rem .5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-weight: bold;
+}

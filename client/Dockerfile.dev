@@ -1,0 +1,8 @@
+FROM node:16.13.1 AS builder
+WORKDIR /app
+ENV PATH /app/node_modules/.bin:$PATH
+COPY package.json ./
+RUN npm install
+COPY . ./
+EXPOSE 8080
+ENTRYPOINT npm run serve
