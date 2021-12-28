@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
   entry: ['./src/index.tsx'],
@@ -16,16 +17,7 @@ module.exports = {
     static: {
       directory: path.join(__dirname, 'src'),
     },
-    proxy: {
-      '/graphql': {
-        target: 'http://localhost:3000',
-        secure: false,
-      },
-      '/clearCache': {
-        target: 'http://localhost:3000',
-        secure: false,
-      },
-    },
+    historyApiFallback: true,
   },
   module: {
     rules: [
@@ -42,18 +34,28 @@ module.exports = {
         },
       },
       {
-        test: /\.(css|scss)$/,
+        test: /\.css$/i,
         use: [
-          'style-loader',
-          'css-modules-typescript-loader',
+          MiniCssExtractPlugin.loader,
           'css-loader',
-          'sass-loader',
+          {
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: [
+                  [
+                    "postcss-preset-env"
+                  ],
+                ],
+              },
+            },
+          },
         ],
       },
       {
         test: /\.(jpg|png)$/,
         use: {
-          loader: 'url-loader',
+          loader: 'file-loader',
         }
       },
       {
@@ -69,6 +71,10 @@ module.exports = {
       template: './src/index.html',
       filename: 'index.html',
       cache: false,
+    }),
+    new MiniCssExtractPlugin({
+      filename: "index.css",
+      chunkFilename: "index.css"
     }),
   ],
 };
