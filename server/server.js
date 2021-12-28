@@ -6,11 +6,15 @@ const PORT = 3000;
 // HANDLE STATIC FILES + JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(express.static(path.join(__dirname, '../client/public')));
-app.use('/', (req, res) => {
-  // res.sendFile(path.join(__dirname, '../client/public/index.html'))
-  res.send('Hello world')
-})
+app.use(express.static(path.join(__dirname, '../client/public')));
+
+// Card Router
+const cardsRouter = require('./routers/cardsRouter');
+const cardsController = require('./controllers/cardsController');
+app.get('/api/cards', cardsController.getCards, (req, res) => {
+  res.status(200).json(res.locals.deck)
+});
+
 
 // AUTH AND SESSION START
 // const cookieSession = require('cookie-session');
