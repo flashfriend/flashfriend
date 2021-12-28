@@ -55,6 +55,22 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 })
 
+// CARD ROUTES
+app.get('/cards', (req, res) => {
+  // DISPLAY ALL CARDS
+})
+app.post('/cards', (req, res) => {
+  // ADD NEW CARD
+  // { userId, front, back, hidden, tags, last_correct, last_incorrect, total_correct, total_incorrect } = req.body
+  // INSERT INTO cards ( )
+})
+app.put('/cards', (req, res) => {
+  // EDIT CARD
+})
+app.delete('/cards', (req, res) => {
+  // DELETE CARD
+})
+
 
 // ERROR HANDLING
 app.use((req, res) => res.status(404).send('Not found'));
