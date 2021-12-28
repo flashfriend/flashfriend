@@ -75,16 +75,16 @@ function Stack() {
       <div className="cardContainer">
         {deck.map((card, index) => (
           <TinderCard
-            ref={childRefs[index]}
+            ref={childRefs[index] as any}
             className="swipe"
             key={card.id}
             onSwipe={() => swiped(index)}
           >
             <div className="card bg-slate-200 border-amber-500 border-2">
               {flipped === 'front' ? (
-                <Front text={card.front} />
+                <Front text={card.front} front_id={card.id}/>
               ) : (
-                <Back text={card.back} />
+                <Back text={card.back} back_id={card.id}/>
               )}
             </div>
           </TinderCard>
@@ -92,10 +92,7 @@ function Stack() {
       </div>
 
       <div className="buttons">
-        {/* <button className='button bg-amber-500' onClick={() => goBack()}>Go Back</button> */}
-        <button className="button bg-amber-500" onClick={() => swipe('left')}>
-          Go Back
-        </button>
+        <button className='button bg-amber-500' onClick={() => goBack()}>Back</button>
         <button
           className="button bg-amber-500"
           onClick={() => {
