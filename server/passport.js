@@ -10,10 +10,16 @@ passport.deserializeUser((user, done) => {
 })
 
 passport.use(new GitHubStrategy({
-  clientID: "ENTER FROM GITHUB FORM",
-  clientSecret: "41ENTER FROM GITHUB FORMbf",
+  clientID: "9cbbc689c13253eb3f0b",
+  clientSecret: "849b4955037c0217838ce00a2356e0ecff16e286",
   callbackURL: "http://localhost:3000/auth/github/callback"
 }, (accessToken, refreshToken, profile, done) => {
+  console.log('ACCESS TOKEN: ', accessToken)
+  console.log('REFRESH TOKEN: ', refreshToken)
+  console.log('PROFILE: ', profile)
   return done(null, profile);
 }
 ));
+
+
+// docker-compose -f docker-compose-dev.yml up --build
