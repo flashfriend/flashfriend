@@ -1,16 +1,32 @@
 const path = require('path');
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const PORT = 3000;
 
-// HANDLE STATIC FILES + JSON
+// HANDLE STATIC FILES + JSON + CORS
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(express.static(path.join(__dirname, '../client/public')));
-app.get('/', (req, res) => {
-  // res.sendFile(path.join(__dirname, '../client/public/index.html'))
-  res.send('Hello world')
+app.use(cors());
+
+app.use(express.static(path.join(__dirname, '../client/public')));
+
+// LOG IN AND LOG OUT
+app.get('/login', (req, res) => {
+  res.redirect('/auth/github')
 })
+
+app.get('/logout', (req, res) => {
+  req.session = null;
+  req.logout();
+  res.redirect('/');
+})
+
+app.use('*',  (req, res, next)=> {
+  console.log(req._parsedOriginalUrl);
+  if (req._parsedOriginalUrl.pathname.includes('/auth') || req._parsedOriginalUrl.pathname.includes('/api')) next()
+  else res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
+ });
 
 // AUTH AND SESSION START
 const cookieSession = require('cookie-session');
@@ -38,22 +54,9 @@ app.get(
   '/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/auth/error' }),
   function (req, res) {
-    res.redirect('/');
+    res.redirect('/home');
   }
 );
-// AUTH AND SESSION END
-
-app.get('/', (req, res) => {
-  res.send(`Hello world`);
-});
-
-// LOG IN AND LOG OUT
-app.get('/login', (req, res) => res.redirect('/auth/github'))
-app.get('/logout', (req, res) => {
-  req.session = null;
-  req.logout();
-  res.redirect('/');
-})
 
 // CARD ROUTES
 app.get('/cards', (req, res) => {
