@@ -1,8 +1,11 @@
 import React from 'react';
-import logo from './static/ff_logo.png';
-import './App.css';
+import logo from '../../static/ff_logo.png';
+import './Login.css';
 
-function App() {
+function Login() {
+
+  // TODO: Handle authentication login to redirect to home page if logged in
+
   const handleSignIn = async () => {
     console.log('TODO: OAuth sign in!')
   }
@@ -27,4 +30,4 @@ function App() {
   );
 }
 
-export default App;
+export default Login;

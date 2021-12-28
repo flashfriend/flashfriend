@@ -7,6 +7,7 @@
   --secondary: #FFBD59;
   --dark: #25242A;
   background-color: var(--primary);
+  overflow: hidden;
 }
 
 body {

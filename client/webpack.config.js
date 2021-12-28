@@ -16,7 +16,8 @@ module.exports = {
     port: 8080,
     static: {
       directory: path.join(__dirname, 'src'),
-    }
+    },
+    historyApiFallback: true,
   },
   module: {
     rules: [
