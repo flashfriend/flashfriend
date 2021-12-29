@@ -34,15 +34,13 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 })
 
-// app.use('*', authController.isLoggedIn,  (req, res, next)=> {
-//   if (req._parsedUrl.pathname.includes('/auth') || req._parsedUrl.pathname.includes('/api')) next()
-//   else res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
-// });
+app.get('/home', authController.isLoggedIn, (req, res) => res.sendFile(path.join(__dirname, '../client/public', 'index.html')));
 
-app.use('*', (req, res, next)=> {
-  if (req._parsedUrl.pathname.includes('/auth') || req._parsedUrl.pathname.includes('/api')) next()
-  else res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
-});
+// app.use('*', (req, res, next)=> {
+//   if (req._parsedUrl.pathname.includes('/auth') || req._parsedUrl.pathname.includes('/api')) {
+//     next()
+//   } else res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
+// });
 
 // Card Router
 const cardsRouter = require('./routers/cardsRouter');
@@ -74,9 +72,12 @@ app.get(
   '/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/auth/error' }),
   function (req, res) {
+    console.log(req.user.id)
     res.redirect('/home')
   }
 );
+
+
 
 app.get('/api/userid', (req,res) => {
   res.status(230).json(req.user.id);

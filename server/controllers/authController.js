@@ -1,11 +1,14 @@
 const authControllers = {};
 
 authControllers.isLoggedIn = (req, res, next) => {
-  if (req.user) {
-    next();
-  } else {
-    res.status(401).redirect('/home');
-  }
+  console.log('isloggedin', req.cookies)
+  next();
+  // if (req.user) {
+  //   console.log('checked')
+  //   next();
+  // } else {
+  //   res.status(401).redirect('/login');
+  // }
 }
 
 module.exports = authControllers;
