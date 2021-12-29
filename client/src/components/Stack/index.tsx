@@ -92,9 +92,6 @@ function Stack() {
       {/* <h1 className='font-bold text-neutral-900 text-xl mb-5' >Let's study!</h1> */}
       <div 
         className="cardContainer" 
-        onClick={() => {
-          flipped === 'front' ? setFlipped('back') : setFlipped('front');
-        }}
         >
         {deck.map((card, index) => (
           <TinderCard
@@ -106,9 +103,9 @@ function Stack() {
           >
             <div className="card bg-slate-200 border-amber-500 border-2">
               {flipped === 'front' ? (
-                <Front text={card.front} front_id={card.id} openModal={openModal} />
+                <Front text={card.front} front_id={card.id} openModal={openModal} flipped={flipped} setFlipped={setFlipped} />
               ) : (
-                <Back text={card.back} back_id={card.id} openModal={openModal} />
+                <Back text={card.back} back_id={card.id} openModal={openModal} flipped={flipped} setFlipped={setFlipped} />
               )}
             </div>
           </TinderCard>
