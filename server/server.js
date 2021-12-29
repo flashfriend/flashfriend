@@ -17,17 +17,12 @@ app.use(cors());
 
 // app.use(express.static(path.join(__dirname, '../client/public')));
 
-// CATCH ALL PASSPORT JS
-// app.use((req, res, next) => {
-//   console.log('CATCH ALL PASSPORTJS USER: ', res.locals.currentUser)
-//   return next();
-// })
-
-// LOG IN AND LOG OUT
+// LOGIN
 app.get('/login', (req, res) => {
   res.redirect('/auth/github');
 })
 
+<<<<<<< HEAD
 app.get('/logout', (req, res) => {
   req.session = null;
   req.logout();
@@ -41,6 +36,8 @@ app.get('/home', authController.isLoggedIn, (req, res) => res.sendFile(path.join
 //     next()
 //   } else res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
 // });
+=======
+>>>>>>> a0536c3e19ca0debc5203649a87c6a685bbd2e85
 
 // Card Router
 const cardsRouter = require('./routers/cardsRouter');
@@ -77,10 +74,27 @@ app.get(
   }
 );
 
+<<<<<<< HEAD
 
 
+=======
+// FETCH USERID API
+>>>>>>> a0536c3e19ca0debc5203649a87c6a685bbd2e85
 app.get('/api/userid', (req,res) => {
   res.status(230).json(req.user.id);
+})
+
+// IS AUTH CHECK
+app.use('/home', authController.isLoggedIn, (req, res) => res.sendFile(path.join(__dirname, '../client/public', 'index.html')));
+
+// LOGOUT
+app.get('/logout', (req, res) => {
+  console.log('LOGOUT REQUEST USER: ', req.user)
+  console.log('LOGOUT REQUEST SESSION: ', req.session)
+  req.session = null;
+  req.user = null;
+  req.logout();
+  res.redirect('/');
 })
 
 // ERROR HANDLING
