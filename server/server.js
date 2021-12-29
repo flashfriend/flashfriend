@@ -75,6 +75,20 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 })
 
+// app.get('/logout', (req, res) => {
+//   req.logout();
+//   console.log('LOGOUT REQ.SESSION: ', req.session);
+//   if (req.session) {
+//     req.session.destroy(function (err) {
+//       if (err) {
+//         console.log(err)
+//       }
+//       'LOGGED OUT';
+//       res.redirect('/');
+//     });
+//   }
+// });
+
 // ERROR HANDLING
 app.use((req, res) => res.status(404).send('Not found'));
 
