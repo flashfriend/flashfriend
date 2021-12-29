@@ -4,7 +4,8 @@ authControllers.isLoggedIn = (req, res, next) => {
   if (req.user) {
     next();
   } else {
-    res.status(401).redirect('/home');
+    console.log('NOT AUTHORIZED REDIRECTING!')
+    res.status(401).redirect('/');
   }
 }
 
