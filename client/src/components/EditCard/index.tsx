@@ -12,12 +12,12 @@ export default function EditCard({
   closeModal: () => void;
   card: Card;
 }) {
-
+  const [front, setFront] = useState('');
+  const [back, setBack] = useState('');
   const handleEditCard = () => {
-    console.log('Submitting card edits')
-    closeModal()
-  } 
-
+    console.log('Submitting card edits');
+    closeModal();
+  };
 
   return (
     <AddUpdateModal
@@ -25,7 +25,11 @@ export default function EditCard({
       isOpen={isOpen}
       closeModal={closeModal}
       handleModalSubmit={handleEditCard}
-      instruction='Edit Flashcard'
+      instruction="Edit Flashcard"
+      front={front}
+      setFront={setFront}
+      back={back}
+      setBack={setBack}
     />
   );
 }

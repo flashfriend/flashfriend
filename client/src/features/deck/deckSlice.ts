@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createReadStream } from 'fs';
 import { RootState, AppThunk } from '../../app/store';
 import { sampleCards } from '../../data/sampleCards';
-import { fetchDeck } from './deckAPI';
 
 export interface Card {
   id: number;
@@ -15,6 +14,12 @@ export interface Card {
   last_incorrect?: Date | null;
   total_correct?: number;
   total_incorrect?: number;
+}
+
+export interface NewCard {
+  userid: number;
+  front: string;
+  back: string;
 }
 
 export interface DeckState {
@@ -40,9 +45,7 @@ const initialState: DeckState = {
 export const getDeckAsync = createAsyncThunk('deck/fetchDeck', 
   async () => {
     const user = localStorage.getItem("ff_userid")
-    console.log('user: ', user)
     const response = await fetch(`/api/cards/${user}`).then(data => data.json())
-    console.log("get deck async", response.deck);
     return response.deck
   }
 );
@@ -83,7 +86,21 @@ export const deleteCardAsync = createAsyncThunk('deck/deleteCard',
   }
   )
 
-export const deleteCareAsync = createAsyncThunk
+export const addCardAsync = createAsyncThunk('deck/addCard', 
+  async (card: NewCard) => {
+    const body = JSON.stringify(card)
+    const response = await fetch(`/api/cards/${card.userid}`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body
+    }).then(data => data.json())
+    console.log("new card", response);
+    return response
+  });
+
 
 export const deckSlice = createSlice({
   name: 'deck',
@@ -139,6 +156,9 @@ export const deckSlice = createSlice({
         if (action.payload.length > 0) {
           state.cards = action.payload;
           state.cardCount = action.payload.length;
+        } else {
+          state.cards = [welcomeCard];
+          state.cardCount = 1;
         }
       })
       .addCase(updateCardAsync.fulfilled, (state, action) => {
@@ -148,6 +168,14 @@ export const deckSlice = createSlice({
       .addCase(deleteCardAsync.fulfilled, (state, action) => {
         console.log('delete payload:  ', action.payload)
         //TODO: finish
+      })
+      .addCase(addCardAsync.fulfilled, (state, action: PayloadAction<Card>) => {
+        let returnCard: any = action.payload;
+        if (returnCard.err) return state;
+        else {
+          state.cards.push(action.payload);
+          state.cardCount += 1;
+        }
       })
   }
 });

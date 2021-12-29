@@ -7,16 +7,22 @@ export default function AddUpdateModal({
   isOpen,
   closeModal,
   instruction,
-  handleModalSubmit
+  handleModalSubmit,
+  front,
+  setFront,
+  back,
+  setBack
 }: {
   card: Card | null;
   isOpen: boolean;
   closeModal: () => void;
   instruction: string;
   handleModalSubmit: ()=> void;
+  front: string;
+  setFront: () => void;
+  back: string;
+  setBack: () => void;
 }) {
-  const [front, setFront] = useState('');
-  const [back, setBack] = useState('');
 
   useEffect(() => {
     if (card) {
