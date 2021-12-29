@@ -20,8 +20,6 @@ ReactDOM.render(
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path='home' element={<Home />} />
-          <Route path='cards' element={<Home />} />
-          <Route path='settings' element={<Home />} />
         </Routes>
       </BrowserRouter>
     </Provider>
