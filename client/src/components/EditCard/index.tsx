@@ -23,7 +23,7 @@ export default function EditCard({
     if (userid) {
       userid = Number(userid);
       const { id } = card
-      dispatch(updateCardAsync({ id, userid, front, back }))
+      dispatch(updateCardAsync({ userid, front, back }))
         .then((data) => console.log('handleEditCard: ', data))
         .then(() => closeModal())
         .then(() => window.location.reload());

@@ -103,9 +103,9 @@ function Stack() {
           >
             <div className="card bg-slate-200 border-amber-500 border-2">
               {flipped === 'front' ? (
-                <Front text={card.front} front_id={card.id} openModal={openModal} flipped={flipped} setFlipped={setFlipped} />
+                <Front text={card.front} card={card} openModal={openModal} flipped={flipped} setFlipped={setFlipped} />
               ) : (
-                <Back text={card.back} back_id={card.id} openModal={openModal} flipped={flipped} setFlipped={setFlipped} />
+                <Back text={card.back} card={card} openModal={openModal} flipped={flipped} setFlipped={setFlipped} />
               )}
             </div>
           </TinderCard>

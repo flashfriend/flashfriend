@@ -75,14 +75,15 @@ export const updateCardAsync = createAsyncThunk(
 export const deleteCardAsync = createAsyncThunk(
   'deck/deleteCard',
   async (card: Card) => {
-    const user = localStorage.getItem('ff_userid');
     try {
-      const { id, creator_id, front, back, tags } = card;
-      const response = await fetch(`/api/cards/${user}/${card.id}`, {
+      const { id, userid } = card;
+      const response = await fetch(`/api/cards/${userid}/${id}`, {
         method: 'DELETE',
-        // body: card
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
       }).then((data) => data.json());
-      console.log('delete response: ', response);
       return response.deck;
       //check to see what cardController returns for this...
     } catch (err) {
@@ -171,11 +172,8 @@ export const deckSlice = createSlice({
         }
       )
       .addCase(updateCardAsync.fulfilled, (state, action) => {
-        console.log('update payload: ', action.payload);
       })
       .addCase(deleteCardAsync.fulfilled, (state, action) => {
-        console.log('delete payload:  ', action.payload);
-        //TODO: finish
       })
       .addCase(addCardAsync.fulfilled, (state, action: PayloadAction<Card>) => {
         let returnCard: any = action.payload;

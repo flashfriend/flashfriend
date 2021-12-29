@@ -65,14 +65,12 @@ cardsController.deleteCard = (req, res, next) => {
   if (!req.params) return next();
 
   const { cardId } = req.params;
-
-  const queryStr = 'DELETE FROM cards WHERE id = ($1) RETURNING *';
+  const queryStr = 'DELETE FROM cards WHERE id = ($1)';
   const values = [cardId];
 
   try {
     db.query(queryStr, values)
       .then(data => {
-        res.locals.deck = data.rows
         return next();
       })
   } catch (err) {
