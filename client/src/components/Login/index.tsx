@@ -4,12 +4,6 @@ import './Login.css';
 
 function Login() {
 
-  // TODO: Handle authentication login to redirect to home page if logged in
-
-  const handleSignIn = async () => {
-    await fetch('http://localhost:3000/auth/github')
-  }
-
   return (
     <div className={
       `flex flex-col text-center min-h-screen items-center justify-center text-base`

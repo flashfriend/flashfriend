@@ -3,7 +3,6 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const cors = require('cors');
 const app = express();
-const PORT = 3000;
 
 const authController = require('./controllers/authController');
 
@@ -11,7 +10,7 @@ const authController = require('./controllers/authController');
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '../client/public')));
+app.use(express.static(path.join(__dirname, './public')));
 
 app.use(cors());
 
@@ -61,8 +60,8 @@ app.get('/api/userid', (req,res) => {
 })
 
 // IS AUTH CHECK
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, '../client/public', 'index.html')))
-app.use('/home', authController.isLoggedIn, (req, res) => res.sendFile(path.join(__dirname, '../client/public', 'index.html')));
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, './public', 'index.html')))
+app.use('/home', authController.isLoggedIn, (req, res) => res.sendFile(path.join(__dirname, './public', 'index.html')));
 
 
 // LOGOUT
@@ -103,8 +102,8 @@ app.use((err, req, res, next) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port: ${PORT}...`);
+app.listen(process.env.PORT || 3000, () => {
+  console.log(`Server listening on port: ${process.env.PORT || 3000}...`);
 });
 
 module.exports = app;
