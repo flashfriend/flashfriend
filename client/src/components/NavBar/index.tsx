@@ -16,6 +16,14 @@ function NavBar() {
     setIsOpen(true)
   }
 
+  async function addCard() {
+    console.log("hi")
+    const creator_id = localStorage.getItem("ff_userid")
+    console.log(creator_id)
+    //await dispatch(addCardAsync({ creator_id, front, back }))
+    // close modal
+  }
+
   return (
     <>
       <div className="flex items-center h-20 px-6 justify-between shadow-sm bg-slate-100 relative z-10">
@@ -95,7 +103,7 @@ function NavBar() {
           </div>
         )}
       </div>
-      <AddCard isOpen={isOpen} closeModal={closeModal}/>
+      <AddCard isOpen={isOpen} closeModal={closeModal} addCard={addCard} />
     </>
   )
 }
