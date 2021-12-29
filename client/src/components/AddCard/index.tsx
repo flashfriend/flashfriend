@@ -22,10 +22,6 @@ export default function AddCard({
       userid = Number(userid);
       dispatch(addCardAsync({ userid, front, back }))
         .then((data) => console.log('handleAddCard', data))
-        // .then(() => {
-        //   setFront('')
-        //   setBack('')
-        // })
         .then(() => closeModal())
         .then(() => window.location.reload());
     } else alert('Error adding card!');

@@ -7,4 +7,5 @@ authControllers.isLoggedIn = (req, res, next) => {
     res.status(401).redirect('/home');
   }
 }
+
 module.exports = authControllers;

@@ -1,13 +1,18 @@
 import React from 'react'
 
-function Back({ text, back_id, openModal }: { text: string, back_id: number, openModal: () => void }) {
+function Back({ text, back_id, openModal, flipped, setFlipped }: { text: string, back_id: number, openModal: () => void , flipped: string, setFlipped: (flipped: string) => void}) {
 
-  // const editCard = () => {
-  //   // TODO:
-  // }
+  // TODO: Edit card functionality
 
   return (
-    <div className='flex flex-col p-3 h-full'>
+    <div className='flex flex-col p-3 h-full z-70 relative' 
+      onClick={(e) => {
+        flipped === 'front' ? setFlipped('back') : setFlipped('front');
+      }}
+    >
+      <button className='absolute -right-8 -top-8'>
+        <svg className="h-8 w-8 text-white fill-slate-800 hover:animate-spin"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  strokeWidth="2"  strokeLinecap="round"  strokeLinejoin="round">  <circle cx="12" cy="12" r="10" />  <line x1="15" y1="9" x2="9" y2="15" />  <line x1="9" y1="9" x2="15" y2="15" /></svg>
+      </button> 
       <div className='flex-1 font-semibold text-xl'>
         <h3>{text}</h3>
       </div>

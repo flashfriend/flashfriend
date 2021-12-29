@@ -17,7 +17,6 @@ export function mapRef(arr: Card[]) {
 }
 
 function Stack() {
-  // TODO: The 'cards' variable will be replaced with a call to the Redux store to grab the user's cards using useSelector() and a .map() to render a card component with an index passed into the functions (onSwipe) for each object.
   const dispatch = useAppDispatch();
   const deck = useAppSelector(selectDeck);
 
@@ -30,6 +29,7 @@ function Stack() {
 
   useEffect(() => {
     dispatch(getDeckAsync()).then((data) => {
+      console.log(data)
       const newRefs = mapRef(data.payload);
       setChildRefs(newRefs);
       setCurrentIndex(data.payload.length - 1);
@@ -92,9 +92,6 @@ function Stack() {
       {/* <h1 className='font-bold text-neutral-900 text-xl mb-5' >Let's study!</h1> */}
       <div 
         className="cardContainer" 
-        onClick={() => {
-          flipped === 'front' ? setFlipped('back') : setFlipped('front');
-        }}
         >
         {deck.map((card, index) => (
           <TinderCard
@@ -106,9 +103,9 @@ function Stack() {
           >
             <div className="card bg-slate-200 border-amber-500 border-2">
               {flipped === 'front' ? (
-                <Front text={card.front} front_id={card.id} openModal={openModal} />
+                <Front text={card.front} front_id={card.id} openModal={openModal} flipped={flipped} setFlipped={setFlipped} />
               ) : (
-                <Back text={card.back} back_id={card.id} openModal={openModal} />
+                <Back text={card.back} back_id={card.id} openModal={openModal} flipped={flipped} setFlipped={setFlipped} />
               )}
             </div>
           </TinderCard>
