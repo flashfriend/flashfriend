@@ -22,7 +22,8 @@ module.exports = {
     historyApiFallback: true,
     proxy: {
       '/login': 'http://localhost:3000/',
-      '/auth/': 'http://localhost:3000/'
+      '/auth/': 'http://localhost:3000/',
+      '/api/': 'http://localhost:3000/'
     }
   },
   module: {

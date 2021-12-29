@@ -1,40 +1,41 @@
 import TinderCard from 'react-tinder-card';
 import Front from './Front';
 import Back from './Back';
-import React, { useState, useMemo, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './Stack.css';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectDeck, getCards } from '../../features/deck/deckSlice';
-
+import {
+  selectDeck,
+  selectCurrentCard,
+  getDeckAsync,
+  Card,
+} from '../../features/deck/deckSlice';
 
 function Stack() {
   // TODO: The 'cards' variable will be replaced with a call to the Redux store to grab the user's cards using useSelector() and a .map() to render a card component with an index passed into the functions (onSwipe) for each object.
   const dispatch = useAppDispatch();
   const deck = useAppSelector(selectDeck);
+  const card = useAppSelector(selectCurrentCard);
 
   const [currentIndex, setCurrentIndex] = useState<number>(deck.length - 1);
   const [flipped, setFlipped] = useState<string>('front');
+  const [childRefs, setChildRefs] = useState([]);
 
   const currentIndexRef = useRef(currentIndex);
 
-  // const childRefs: React.RefObject<any>[] = useMemo(
-  //   () =>
-  //     Array(cards.length)
-  //       .fill(0)
-  //       .map((i) => React.createRef()),
-  //   []
-  // );
-
   useEffect(() => {
-    console.log('use effect fired')
-    dispatch(getCards());
-  }, [flipped])
+    dispatch(getDeckAsync())
+    .then((data) => {
+      const newRefs = mapRef(data.payload);
+      setChildRefs(newRefs);
+      setCurrentIndex(data.payload.length - 1);
+    })
+  }, []);
 
-  const childRefs = useMemo(
-    () => (
-      deck.map(i => React.createRef())
-    ), []
-  )
+  function mapRef(arr: Card[]) {
+    const childRefs = arr.map((i: Card) => React.createRef());
+    return childRefs;
+  }
 
   const updateCurrentIndex = (val: number) => {
     setCurrentIndex(val);
@@ -45,6 +46,7 @@ function Stack() {
   const canSwipe = currentIndex >= 0;
 
   const swiped = (index: number) => {
+    console.log('swiped', index)
     updateCurrentIndex(index - 1);
   };
 
@@ -55,7 +57,10 @@ function Stack() {
   };
 
   const goBack = async () => {
-    if (!canGoBack) return;
+    if (!canGoBack) {
+      console.log(currentIndex)
+      return;
+    }
     const newIndex = currentIndex + 1;
     updateCurrentIndex(newIndex);
     await childRefs[newIndex].current.restoreCard();
@@ -77,14 +82,14 @@ function Stack() {
           <TinderCard
             ref={childRefs[index] as any}
             className="swipe"
-            key={card.id}
+            key={card.id + index}
             onSwipe={() => swiped(index)}
           >
             <div className="card bg-slate-200 border-amber-500 border-2">
               {flipped === 'front' ? (
-                <Front text={card.front} front_id={card.id}/>
+                <Front text={card.front} front_id={card.id} />
               ) : (
-                <Back text={card.back} back_id={card.id}/>
+                <Back text={card.back} back_id={card.id} />
               )}
             </div>
           </TinderCard>
@@ -92,7 +97,9 @@ function Stack() {
       </div>
 
       <div className="buttons">
-        <button className='button bg-amber-500' onClick={() => goBack()}>Back</button>
+        <button className="button bg-amber-500" onClick={() => goBack()}>
+          Back
+        </button>
         <button
           className="button bg-amber-500"
           onClick={() => {

@@ -17,23 +17,20 @@ passport.use(new GitHubStrategy({
 }, (accessToken, refreshToken, profile, done) => {
   // TODO: 
   // SQL 
-  const queryStr = `INSERT INTO users (id) VALUES ($1))`;
-  const values = [profile.id]
+  // const queryStr = `INSERT INTO users (id) VALUES ($1) `;
+  const queryStr = `INSERT INTO users (id, name) VALUES ($1, $2) ON CONFLICT (id) DO NOTHING`
+  const values = [ profile.id, profile.displayName ];
 
-  // try {
-  //   db.query(queryStr, values)
-  //     .then(data => {
-  //       console.log(data);
-        
-  //       return next();
-  //     })
-  // } catch (err) {
-  //   console.log(err.stack)
-  //   return next(err.stack);
-  // }
-
-
-  return done(null, profile);
+  try {
+    db.query(queryStr, values)
+      .then(data => {
+        // console.log(data);
+        return done(null, profile);
+      })
+  } catch (err) {
+    console.log(err.stack)
+    return next(err.stack);
+  }
 }
 ));
 

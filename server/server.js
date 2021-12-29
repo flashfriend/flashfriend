@@ -4,6 +4,8 @@ const cors = require('cors');
 const app = express();
 const PORT = 3000;
 
+const cardsController = require('./controllers/cardsController');
+
 // HANDLE STATIC FILES + JSON + CORS
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -12,12 +14,13 @@ app.use(express.static(path.join(__dirname, '../client/public')));
 
 app.use(cors());
 
-app.use(express.static(path.join(__dirname, '../client/public')));
+// app.use(express.static(path.join(__dirname, '../client/public')));
 
-app.use((req, res, next) => {
-  res.locals.currentUser = req.user;
-  return next();
-})
+// CATCH ALL PASSPORT JS
+// app.use((req, res, next) => {
+//   console.log('CATCH ALL PASSPORTJS USER: ', res.locals.currentUser)
+//   return next();
+// })
 
 // LOG IN AND LOG OUT
 app.get('/login', (req, res) => {
@@ -31,16 +34,20 @@ app.get('/logout', (req, res) => {
 })
 
 app.use('*',  (req, res, next)=> {
-  // console.log(req._parsedOriginalUrl);
-  if (req._parsedOriginalUrl.pathname.includes('/auth') || req._parsedOriginalUrl.pathname.includes('/api')) next()
-  else res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
+  if (req._parsedOriginalUrl.pathname.includes('/auth') || req._parsedOriginalUrl.pathname.includes('/api')) {
+    console.log(req._parsedOriginalUrl.pathname)
+    next()
+  } else {
+    console.log(req._parsedOriginalUrl.pathname)
+    res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
+  }
 });
 
 // Card Router
 const cardsRouter = require('./routers/cardsRouter');
 app.use('/api/cards', cardsRouter);
 
-// AUTH AND SESSION START
+// AUTH AND SESSION
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 require('./passport');
@@ -70,21 +77,10 @@ app.get(
   }
 );
 
-// // CARD ROUTES
-// app.get('/cards', (req, res) => {
-//   // DISPLAY ALL CARDS
-// })
-// app.post('/cards', (req, res) => {
-//   // ADD NEW CARD
-//   // { userId, front, back, hidden, tags, last_correct, last_incorrect, total_correct, total_incorrect } = req.body
-//   // INSERT INTO cards ( )
-// })
-// app.put('/cards', (req, res) => {
-//   // EDIT CARD
-// })
-// app.delete('/cards', (req, res) => {
-//   // DELETE CARD
-// })
+app.get('/api/user', (req,res) => {
+  console.log('HIT /API/USER ENDPOINT: ', req.user);
+  res.status(230).json(req.user);
+})
 
 
 // ERROR HANDLING
