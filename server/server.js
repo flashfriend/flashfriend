@@ -76,9 +76,9 @@ app.get(
   }
 );
 
-app.get('/api/user', (req,res) => {
+app.get('/api/userid', (req,res) => {
   console.log('HIT /API/USER ENDPOINT: ', req.user);
-  res.status(230).json(req.user);
+  res.status(230).json(req.user.id);
 })
 
 
