@@ -1,28 +1,31 @@
 import { Dialog, Transition } from '@headlessui/react';
 import React, { Fragment, useState } from 'react';
+import { Card } from '../../features/deck/deckSlice';
 import AddUpdateModal from '../AddUpdateModal';
 
 export default function EditCard({
   isOpen,
   closeModal,
-  card
+  card,
 }: {
   isOpen: boolean;
   closeModal: () => void;
-  card: React.MutableRefObject<number>;
+  card: Card;
 }) {
-  const handleEditCard = async () => {
-    // update redux state (and database)
-    // close modal
-  };
+
+  const handleEditCard = () => {
+    console.log('Submitting card edits')
+    closeModal()
+  } 
+
 
   return (
     <AddUpdateModal
       card={card}
       isOpen={isOpen}
       closeModal={closeModal}
-      handleModal={handleEditCard}
-      instruction="Edit FlashCard"
+      handleModalSubmit={handleEditCard}
+      instruction='Edit Flashcard'
     />
   );
 }

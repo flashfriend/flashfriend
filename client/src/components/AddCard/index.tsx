@@ -5,6 +5,8 @@ import AddUpdateModal from '../AddUpdateModal'
 export default function AddCard({ isOpen, closeModal }: { isOpen: boolean, closeModal: () => void }) {
 
   const handleAddCard = async () => {
+    console.log('Adding card')
+    closeModal();
     // update redux state (and database)
     // close modal
   }
@@ -14,7 +16,7 @@ export default function AddCard({ isOpen, closeModal }: { isOpen: boolean, close
       card={null}
       isOpen={isOpen}
       closeModal={closeModal}
-      handleModal={handleAddCard}
+      handleModalSubmit={handleAddCard}
       instruction='Add New FlashCard'
     />
     // <>

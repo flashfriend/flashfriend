@@ -73,6 +73,7 @@ function Stack() {
   }
 
   function openModal() {
+    console.log('current card: ', deck[currentIndex])
     setModalIsOpen(true);
   }
 
@@ -96,9 +97,9 @@ function Stack() {
             >
               <div className="card bg-slate-200 border-amber-500 border-2">
                 {flipped === 'front' ? (
-                  <Front text={card.front} front_id={card.id} />
+                  <Front text={card.front} front_id={card.id} openModal={openModal} />
                 ) : (
-                  <Back text={card.back} back_id={card.id} />
+                  <Back text={card.back} back_id={card.id} openModal={openModal} />
                 )}
               </div>
             </TinderCard>
@@ -127,8 +128,9 @@ function Stack() {
       </div>
       <EditCard
         isOpen={modalIsOpen}
+        setModalIsOpen={setModalIsOpen}
         closeModal={closeModal}
-        card={currentIndexRef}
+        card={deck[currentIndex]}
       />
     </>
   );

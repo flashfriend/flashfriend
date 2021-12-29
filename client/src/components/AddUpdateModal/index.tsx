@@ -1,19 +1,29 @@
 import { Dialog, Transition } from '@headlessui/react';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
+import { Card } from '../../features/deck/deckSlice'
 
 export default function AddUpdateModal({
   card,
   isOpen,
   closeModal,
-  handleModal,
   instruction,
+  handleModalSubmit
 }: {
+  card: Card | null;
   isOpen: boolean;
   closeModal: () => void;
-  handleModal: () => void;
+  instruction: string;
+  handleModalSubmit: ()=> void;
 }) {
-  const [front, setFront] = useState(card ? card.front : '');
-  const [back, setBack] = useState(card ? card.back : '');
+  const [front, setFront] = useState('');
+  const [back, setBack] = useState('');
+
+  useEffect(() => {
+    if (card) {
+      setFront(card.front);
+      setBack(card.back);
+    }
+  }, [isOpen])
 
   return (
     <>
@@ -119,9 +129,9 @@ export default function AddUpdateModal({
                   <button
                     type="button"
                     className="inline-flex justify-center px-4 py-2 text-sm font-medium text-slate-100 bg-amber-500 border border-transparent m-2 mt-0 rounded-md hover:bg-amber-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-amber-600"
-                    onClick={handleModal}
+                    onClick={handleModalSubmit}
                   >
-                    Add
+                    Submit
                   </button>
                 </div>
               </div>
