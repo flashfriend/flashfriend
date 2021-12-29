@@ -15,11 +15,7 @@ export default function AddCard({ isOpen, closeModal }: { isOpen: boolean, close
     if (userid) {
       userid = Number(userid)
       dispatch(addCardAsync({ userid, front, back }))
-<<<<<<< HEAD
-        .then(data => console.log('handleAddCard', data))
-=======
         .then((data) => console.log('handleAddCard', data))
->>>>>>> 6b481ccb86883b0d5243e49ae61ae65386776c17
         .then(() => closeModal())
         .then(() => window.location.reload())
     } else alert('Error adding card!')
