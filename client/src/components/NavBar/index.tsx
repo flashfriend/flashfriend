@@ -16,12 +16,11 @@ function NavBar() {
     setIsOpen(true)
   }
 
-  async function addCard() {
-    console.log("hi")
-    const creator_id = localStorage.getItem("ff_userid")
-    console.log(creator_id)
-    //await dispatch(addCardAsync({ creator_id, front, back }))
-    // close modal
+  async function logOut() {
+    const res = await fetch('/logout', {
+      credentials: 'same-origin'
+    }).then(data => data)
+      .catch(err => err)
   }
 
   return (
@@ -40,12 +39,12 @@ function NavBar() {
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg> Home
           </Link>
-          <Link
+          {/* <Link
             to="/cards"
             className="h-full flex items-center mx-4 px-2 transition-colors duration-300 ease-in-out hover:text-amber-600"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg> My Cards
-          </Link>
+          </Link> */}
           <button
             onClick={openModal}
             className="h-full flex items-center mx-4 px-2 border-b-2 border-transparent transition-colors duration-300 ease-in-out hover:text-amber-600"
@@ -78,12 +77,12 @@ function NavBar() {
               >
                 Home
               </Link>
-              <Link
+              {/* <Link
                 to="/cards"
                 className="no-underline px-2 py-1 my-2 font-medium hover:text-amber-600"
               >
                 My Cards
-              </Link>
+              </Link> */}
               <button
                 onClick={() => {
                   openModal()
@@ -93,17 +92,17 @@ function NavBar() {
               >
                 Add Card
               </button>
-              <a
-                href="/logout"
+              <button
+                onClick={() => logOut()}
                 className="no-underline px-2 my-2 font-medium hover:text-amber-600"
               >
                 Log Out
-              </a>
+              </button>
             </div>
           </div>
         )}
       </div>
-      <AddCard isOpen={isOpen} closeModal={closeModal} addCard={addCard} />
+      <AddCard isOpen={isOpen} closeModal={closeModal} />
     </>
   )
 }
