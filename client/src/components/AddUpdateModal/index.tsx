@@ -19,9 +19,9 @@ export default function AddUpdateModal({
   instruction: string;
   handleModalSubmit: ()=> void;
   front: string;
-  setFront: () => void;
+  setFront: React.Dispatch<React.SetStateAction<string>>
   back: string;
-  setBack: () => void;
+  setBack: React.Dispatch<React.SetStateAction<string>>
 }) {
 
   useEffect(() => {

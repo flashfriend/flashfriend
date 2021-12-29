@@ -11,7 +11,7 @@ export default function AddCard({ isOpen, closeModal }: { isOpen: boolean, close
   const dispatch = useAppDispatch()
 
   const handleAddCard = async () => {
-    let userid: any = localStorage.getItem('ff_userid')
+    let userid: (string | number | null) = localStorage.getItem('ff_userid')
     if (userid) {
       userid = Number(userid)
       dispatch(addCardAsync({ userid, front, back }))
