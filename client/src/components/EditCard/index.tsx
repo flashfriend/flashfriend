@@ -10,6 +10,7 @@ export default function EditCard({
   card,
 }: {
   isOpen: boolean;
+  setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>
   closeModal: () => void;
   card: Card;
 }) {
@@ -23,7 +24,7 @@ export default function EditCard({
     if (userid) {
       userid = Number(userid);
       const { id } = card
-      dispatch(updateCardAsync({ userid, front, back }))
+      dispatch(updateCardAsync({ id, userid, front, back }))
         .then((data) => console.log('handleEditCard: ', data))
         .then(() => closeModal())
         .then(() => window.location.reload());

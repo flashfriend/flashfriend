@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createReadStream } from 'fs';
+import { ErrorInfo } from 'react';
 import { RootState, AppThunk } from '../../app/store';
 import { sampleCards } from '../../data/sampleCards';
 
@@ -176,7 +177,8 @@ export const deckSlice = createSlice({
       .addCase(deleteCardAsync.fulfilled, (state, action) => {
       })
       .addCase(addCardAsync.fulfilled, (state, action: PayloadAction<Card>) => {
-        let returnCard: any = action.payload;
+        console.log('add card payload: ', action.payload)
+        let returnCard: Card | any = action.payload;
         if (returnCard.err) return state;
         else {
           state.cards.push(action.payload);
@@ -194,7 +196,6 @@ export const selectCurrentCard = (state: RootState) =>
 export const {
   // getCards,
   addCard,
-  deleteCard,
   getNextCard,
   getPrevCard,
   updateCard,
