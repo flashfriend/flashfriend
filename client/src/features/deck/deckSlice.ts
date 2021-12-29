@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { createReadStream } from 'fs';
 import { RootState, AppThunk } from '../../app/store';
 import { sampleCards } from '../../data/sampleCards';
+import { fetchDeck } from './deckAPI';
 
 export interface Card {
   id: number;
@@ -31,20 +32,29 @@ const welcomeCard: Card = {
 };
 
 const initialState: DeckState = {
-  cards: [...sampleCards],
+  cards: [welcomeCard],
   currentCard: 0,
   cardCount: 1,
 };
+
+export const getDeckAsync = createAsyncThunk('deck/fetchDeck', 
+  async () => {
+    const response = await fetch('/api/cards/test').then(data => data.json())
+    console.log("get deck async", response.deck);
+    return response.deck
+  }
+);
+
 
 export const deckSlice = createSlice({
   name: 'deck',
   initialState,
   reducers: {
-    getCards: (state) => {
-      console.log('Getting cards');
-      // show cards[currentCard]
-      // get request
-    },
+    // getCards: (state, action: PayloadAction<Card[]>) => {
+    //   console.log('Getting cards');
+    //   state.cards = action.payload;
+    //   state.cardCount = action.payload.length;
+    // },
     addCard: (state, action: PayloadAction<Card>) => {
       console.log('Adding card');
       state.cards.push(action.payload);
@@ -58,17 +68,17 @@ export const deckSlice = createSlice({
     },
     getNextCard: (state) => {
       console.log('Getting Next Card');
-      state.currentCard += 1
+      state.currentCard += 1;
       //show cards[currentCard]
     },
     getPrevCard: (state) => {
       console.log('Getting Next Card');
-      state.currentCard -= 1
+      state.currentCard -= 1;
       // show cards[currentCard]
     },
     updateCard: (state, action: PayloadAction<Card>) => {
-      console.log('Updating Card')
-      const card = state.cards.find(card => card.id === action.payload.id)
+      console.log('Updating Card');
+      const card = state.cards.find((card) => card.id === action.payload.id);
       if (card) {
         card.front = action.payload.front;
         card.back = action.payload.back;
@@ -76,19 +86,35 @@ export const deckSlice = createSlice({
       // put request
     },
     toggleHidden: (state, action: PayloadAction<Card>) => {
-      console.log('Toggling hidden')
-      const card = state.cards.find(card => card.id === action.payload.id)
+      console.log('Toggling hidden');
+      const card = state.cards.find((card) => card.id === action.payload.id);
       if (card) {
         card.hidden = !card.hidden;
       }
-    }
+    },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getDeckAsync.fulfilled, (state, action: PayloadAction<Card[]>) => {
+        console.log('payload: ', action.payload)
+        state.cards = action.payload;
+        state.cardCount = action.payload.length;
+      })
+  }
 });
 
 // SELECTORS
 export const selectDeck = (state: RootState) => state.deck.cards;
-export const selectCurrentCard = (state: RootState) => state.deck.currentCard;
+export const selectCurrentCard = (state: RootState) => state.deck.cards[state.deck.currentCard];
 
-export const { getCards, addCard, deleteCard, getNextCard, getPrevCard, updateCard, toggleHidden } = deckSlice.actions;
+export const {
+  getCards,
+  addCard,
+  deleteCard,
+  getNextCard,
+  getPrevCard,
+  updateCard,
+  toggleHidden,
+} = deckSlice.actions;
 
 export default deckSlice.reducer;
