@@ -22,10 +22,6 @@ app.get('/login', (req, res) => {
   res.redirect('/auth/github');
 })
 
-app.use('*', (req, res, next)=> {
-  if (req._parsedUrl.pathname.includes('/auth') || req._parsedUrl.pathname.includes('/api') || req._parsedUrl.pathname.includes('/logout')) next()
-  else res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
-});
 
 // Card Router
 const cardsRouter = require('./routers/cardsRouter');
@@ -67,7 +63,7 @@ app.get('/api/userid', (req,res) => {
 })
 
 // IS AUTH CHECK
-app.use('/home', authController.isLoggedIn)
+app.use('/home', authController.isLoggedIn, (req, res) => res.sendFile(path.join(__dirname, '../client/public', 'index.html')));
 
 // LOGOUT
 app.get('/logout', (req, res) => {

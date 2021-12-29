@@ -16,6 +16,13 @@ function NavBar() {
     setIsOpen(true)
   }
 
+  async function logOut() {
+    const res = await fetch('/logout', {
+      credentials: 'same-origin'
+    }).then(data => data)
+      .catch(err => err)
+  }
+
   return (
     <>
       <div className="flex items-center h-20 px-6 justify-between shadow-sm bg-slate-100 relative z-10">
@@ -85,12 +92,12 @@ function NavBar() {
               >
                 Add Card
               </button>
-              <a
-                href="/logout"
+              <button
+                onClick={() => logOut()}
                 className="no-underline px-2 my-2 font-medium hover:text-amber-600"
               >
                 Log Out
-              </a>
+              </button>
             </div>
           </div>
         )}
