@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --primary: rgb(224 242 254);
+  --primary: #A7B5CB;
   --secondary: #FFBD59;
   --dark: #25242A;
   background-color: var(--primary);

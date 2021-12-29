@@ -28,7 +28,7 @@ export default function AddCard({ isOpen, closeModal }: { isOpen: boolean, close
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0 bg-blue-100" />
+              <Dialog.Overlay className="fixed inset-0 bg-blue-100 opacity-60" />
             </Transition.Child>
             <span
               className="inline-block h-screen align-middle"

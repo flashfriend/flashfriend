@@ -43,7 +43,7 @@ function Stack() {
   };
 
   const canGoBack = currentIndex < deck.length - 1;
-  const canSwipe = currentIndex >= 0;
+  const canSwipe = currentIndex >= 0 && currentIndex < deck.length;
 
   const swiped = (index: number) => {
     console.log('swiped', index)
@@ -51,6 +51,7 @@ function Stack() {
   };
 
   const swipe = async (dir: string) => {
+    // if the direction is right & its the last card, shuffle and reset the deck
     if (canSwipe && currentIndex < deck.length) {
       await childRefs[currentIndex].current.swipe(dir);
     }
@@ -65,8 +66,6 @@ function Stack() {
     updateCurrentIndex(newIndex);
     await childRefs[newIndex].current.restoreCard();
   };
-
-  // TODO: Create a flipCard function to switch to the other side of the card.
 
   return (
     <div
