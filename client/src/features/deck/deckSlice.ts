@@ -39,8 +39,8 @@ const initialState: DeckState = {
 
 export const getDeckAsync = createAsyncThunk('deck/fetchDeck', 
   async () => {
-    // const user = localStorage.getItem("ff_userid")
-    const user = 'test';
+    const user = await localStorage.getItem("ff_userid")
+    console.log('user: ', user)
     const response = await fetch(`/api/cards/${user}`).then(data => data.json())
     console.log("get deck async", response.deck);
     return response.deck
