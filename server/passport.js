@@ -13,7 +13,7 @@ passport.deserializeUser((user, done) => {
 passport.use(new GitHubStrategy({
   clientID: "9cbbc689c13253eb3f0b",
   clientSecret: "849b4955037c0217838ce00a2356e0ecff16e286",
-  callbackURL: "http://localhost:3000/auth/github/callback"
+  callbackURL: "https://flash-friend.herokuapp.com/auth/github/callback"
 }, (accessToken, refreshToken, profile, done) => {
   // TODO: 
   // SQL 
