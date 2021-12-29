@@ -11,10 +11,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../client/public')));
 
-<<<<<<< HEAD
-=======
-
->>>>>>> d655e853d854fcae7dad746e1260e132856501ca
 app.use(cors());
 
 // app.use(express.static(path.join(__dirname, '../client/public')));
@@ -80,9 +76,9 @@ app.get(
   }
 );
 
-app.get('/api/user', (req,res) => {
+app.get('/api/userid', (req,res) => {
   console.log('HIT /API/USER ENDPOINT: ', req.user);
-  res.status(230).json(req.user);
+  res.status(230).json(req.user.id);
 })
 
 
