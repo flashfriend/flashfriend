@@ -2,9 +2,11 @@ const authControllers = {};
 
 authControllers.isLoggedIn = (req, res, next) => {
   if (req.user) {
-    next();
+    console.log('USER IS LOGGED IN: ', req.user)
+    return next();
   } else {
-    res.status(401).redirect('/home');
+    console.log('NOT AUTHORIZED REDIRECTING!')
+    res.status(401).redirect('/');
   }
 }
 
