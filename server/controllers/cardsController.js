@@ -3,6 +3,8 @@ const db = require('../models/cardModel');
 const cardsController = {};
 
 cardsController.getCards = (req, res, next) => {
+  if (!req.params) return next();
+  
   const { userId } = req.params;
   const queryStr = 'SELECT * FROM cards WHERE userid = ($1)';
   const values = [userId];
@@ -21,7 +23,7 @@ cardsController.getCards = (req, res, next) => {
 
 cardsController.addCard = (req, res, next) => {
   // manually accessing route without sending card id
-  if (!req.body) return next();
+  if (!req.params) return next();
 
   const { userId, cardInfo } = req.body;
    
@@ -46,9 +48,9 @@ cardsController.addCard = (req, res, next) => {
 
 cardsController.editCard = (req, res, next) => {
   // manually accessing route without sending card id
-  if (!req.body) return next();
+  if (!req.params) return next();
 
-  const { cardInfo } = req.body;
+  const { cardInfo } = req.params;
   const queryStr = 'UPDATE cards SET front = ($2), back = ($3), tags = ($4), WHERE id = ($1) RETURNING *';
   const values = [];
 
@@ -70,7 +72,7 @@ cardsController.editCard = (req, res, next) => {
 
 cardsController.deleteCard = (req, res, next) => {
   // manually accessing route without sending card id
-  if (!req.body) return next();
+  if (!req.params) return next();
 
   const { cardId } = req.params;
   const queryStr = 'DELETE FROM cards WHERE id = ($1) RETURNING *';

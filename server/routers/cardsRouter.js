@@ -11,15 +11,15 @@ router.get('/:userId', authController.isLoggedIn, cardsController.getCards, (req
 })
 
 router.post('/add', authController.isLoggedIn, cardsController.addCard, (req, res) => {
-  res.status(200).redirect('/home')
+  res.status(200).json(res.locals.deck)
 })
 
 router.put('/edit', authController.isLoggedIn, cardsController.editCard, (req, res) => {
-res.status(200).redirect('/home')
+res.status(200).json(res.locals.deck)
 })
 
 router.delete('/delete', authController.isLoggedIn, cardsController.deleteCard, (req, res) => {
-res.status(200).redirect('/home')
+res.status(200).json(res.locals.deck)
 })
 
 module.exports = router;
