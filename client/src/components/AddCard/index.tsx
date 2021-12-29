@@ -11,17 +11,14 @@ export default function AddCard({ isOpen, closeModal }: { isOpen: boolean, close
   const dispatch = useAppDispatch()
 
   const handleAddCard = async () => {
+    console.log('add card')
     let userid: any = localStorage.getItem('ff_userid')
     if (userid) {
       userid = Number(userid)
       dispatch(addCardAsync({ userid, front, back }))
         .then(data => console.log('handleAddCard', data))
-        // .then(() => {
-        //   setFront('')
-        //   setBack('')
-        // })
         .then(() => closeModal())
-        .then(() => window.location.reload())
+        //.then(() => window.location.reload())
     } else alert('Error adding card!')
   }
 

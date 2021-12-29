@@ -17,7 +17,6 @@ export function mapRef(arr: Card[]) {
 }
 
 function Stack() {
-  // TODO: The 'cards' variable will be replaced with a call to the Redux store to grab the user's cards using useSelector() and a .map() to render a card component with an index passed into the functions (onSwipe) for each object.
   const dispatch = useAppDispatch();
   const deck = useAppSelector(selectDeck);
 
@@ -30,6 +29,7 @@ function Stack() {
 
   useEffect(() => {
     dispatch(getDeckAsync()).then((data) => {
+      console.log(data)
       const newRefs = mapRef(data.payload);
       setChildRefs(newRefs);
       setCurrentIndex(data.payload.length - 1);
