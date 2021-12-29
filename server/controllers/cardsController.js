@@ -43,15 +43,10 @@ cardsController.addCard = (req, res, next) => {
 cardsController.editCard = (req, res, next) => {
   // manually accessing route without sending card id
   if (!req.params) return next();
+  const { id, userid, front, back } = req.body;
 
-  const { cardInfo } = req.params;
-
-  const queryStr = 'UPDATE cards SET front = ($2), back = ($3), WHERE id = ($1) RETURNING *';
-  const values = [];
-
-  for (let key in cardInfo) {
-    values.push(cardInfo[key]);
-  }
+  const queryStr = 'UPDATE cards SET front = ($1), back = ($2) WHERE id = ($3)';
+  const values = [front, back, id];
 
   try {
     db.query(queryStr, values)

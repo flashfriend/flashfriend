@@ -34,7 +34,12 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 })
 
-app.use('*', authController.isLoggedIn,  (req, res, next)=> {
+// app.use('*', authController.isLoggedIn,  (req, res, next)=> {
+//   if (req._parsedUrl.pathname.includes('/auth') || req._parsedUrl.pathname.includes('/api')) next()
+//   else res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
+// });
+
+app.use('*', (req, res, next)=> {
   if (req._parsedUrl.pathname.includes('/auth') || req._parsedUrl.pathname.includes('/api')) next()
   else res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
 });

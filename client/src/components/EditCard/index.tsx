@@ -1,6 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import React, { Fragment, useState } from 'react';
-import { Card } from '../../features/deck/deckSlice';
+import { useAppDispatch } from '../../app/hooks';
+import { Card, updateCardAsync } from '../../features/deck/deckSlice';
 import AddUpdateModal from '../AddUpdateModal';
 
 export default function EditCard({
@@ -14,9 +15,19 @@ export default function EditCard({
 }) {
   const [front, setFront] = useState('');
   const [back, setBack] = useState('');
-  const handleEditCard = () => {
-    console.log('Submitting card edits');
-    closeModal();
+
+  const dispatch = useAppDispatch();
+
+  const handleEditCard = async () => {
+    let userid: (string | number | null) = localStorage.getItem('ff_userid');
+    if (userid) {
+      userid = Number(userid);
+      const { id } = card
+      dispatch(updateCardAsync({ id, userid, front, back }))
+        .then((data) => console.log('handleEditCard: ', data))
+        .then(() => closeModal())
+        .then(() => window.location.reload());
+    } else alert('Error updating card!');
   };
 
   return (

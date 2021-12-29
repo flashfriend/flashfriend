@@ -5,7 +5,7 @@ import { sampleCards } from '../../data/sampleCards';
 
 export interface Card {
   id: number;
-  creator_id: number | null;
+  userid: number | null;
   front: string;
   back: string;
   hidden?: boolean;
@@ -30,7 +30,7 @@ export interface DeckState {
 
 const welcomeCard: Card = {
   id: 0,
-  creator_id: null,
+  userid: null,
   front: 'Welcome to flashfriend! \n\n Flip me!',
   back: 'Answers to your custom questions will be shown here.',
   tags: ['welcome', 'test'],
@@ -42,65 +42,71 @@ const initialState: DeckState = {
   cardCount: 1,
 };
 
-export const getDeckAsync = createAsyncThunk('deck/fetchDeck', 
-  async () => {
-    const user = localStorage.getItem("ff_userid")
-    const response = await fetch(`/api/cards/${user}`).then(data => data.json())
-    return response.deck
+export const getDeckAsync = createAsyncThunk('deck/fetchDeck', async () => {
+  const user = localStorage.getItem('ff_userid');
+  const response = await fetch(`/api/cards/${user}`).then((data) =>
+    data.json()
+  );
+  return response.deck;
+});
+
+export const updateCardAsync = createAsyncThunk(
+  'deck/editCard',
+  async (card: Card) => {
+    try {
+      const body = JSON.stringify(card);
+      const response = await fetch(`/api/cards/${card.userid}/${card.id}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body,
+      }).then((data) => data.json());
+      console.log('update card response: ', response);
+      return response;
+      //check to see what cardController returns for this...
+    } catch (err) {
+      console.log(err);
+    }
   }
 );
 
-export const updateCardAsync = createAsyncThunk('deck/editCard',
+export const deleteCardAsync = createAsyncThunk(
+  'deck/deleteCard',
   async (card: Card) => {
     const user = localStorage.getItem('ff_userid');
     try {
-      const {id, creator_id, front, back, tags} = card;
-      const response = await fetch(`/api/cards/${user}/${card.id}`, {
-        method: 'PUT',
-        body: card 
-      }).then(data => data.json())
-      console.log('update response: ', response)
-      return response.deck
-      //check to see what cardController returns for this...
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  )
-
-export const deleteCardAsync = createAsyncThunk('deck/deleteCard',
-  async (card: Card) => {
-    const user = localStorage.getItem('ff_userid');
-    try {
-      const {id, creator_id, front, back, tags} = card;
+      const { id, creator_id, front, back, tags } = card;
       const response = await fetch(`/api/cards/${user}/${card.id}`, {
         method: 'DELETE',
-        // body: card 
-      }).then(data => data.json())
-      console.log('delete response: ', response)
-      return response.deck
+        // body: card
+      }).then((data) => data.json());
+      console.log('delete response: ', response);
+      return response.deck;
       //check to see what cardController returns for this...
     } catch (err) {
       console.log(err);
     }
   }
-  )
+);
 
-export const addCardAsync = createAsyncThunk('deck/addCard', 
+export const addCardAsync = createAsyncThunk(
+  'deck/addCard',
   async (card: NewCard) => {
-    const body = JSON.stringify(card)
+    const body = JSON.stringify(card);
     const response = await fetch(`/api/cards/${card.userid}`, {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-      body
-    }).then(data => data.json())
-    console.log("new card", response);
-    return response
-  });
-
+      body,
+    }).then((data) => data.json());
+    console.log('new card', response);
+    return response;
+  }
+);
 
 export const deckSlice = createSlice({
   name: 'deck',
@@ -151,22 +157,24 @@ export const deckSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getDeckAsync.fulfilled, (state, action: PayloadAction<Card[]>) => {
-        console.log('payload: ', action.payload)
-        if (action.payload.length > 0) {
-          state.cards = action.payload;
-          state.cardCount = action.payload.length;
-        } else {
-          state.cards = [welcomeCard];
-          state.cardCount = 1;
+      .addCase(
+        getDeckAsync.fulfilled,
+        (state, action: PayloadAction<Card[]>) => {
+          console.log('payload: ', action.payload);
+          if (action.payload.length > 0) {
+            state.cards = action.payload;
+            state.cardCount = action.payload.length;
+          } else {
+            state.cards = [welcomeCard];
+            state.cardCount = 1;
+          }
         }
-      })
+      )
       .addCase(updateCardAsync.fulfilled, (state, action) => {
-        console.log('update payload:  ', action.payload)
-        //TODO: finish
+        console.log('update payload: ', action.payload);
       })
       .addCase(deleteCardAsync.fulfilled, (state, action) => {
-        console.log('delete payload:  ', action.payload)
+        console.log('delete payload:  ', action.payload);
         //TODO: finish
       })
       .addCase(addCardAsync.fulfilled, (state, action: PayloadAction<Card>) => {
@@ -176,13 +184,14 @@ export const deckSlice = createSlice({
           state.cards.push(action.payload);
           state.cardCount += 1;
         }
-      })
-  }
+      });
+  },
 });
 
 // SELECTORS
 export const selectDeck = (state: RootState) => state.deck.cards;
-export const selectCurrentCard = (state: RootState) => state.deck.cards[state.deck.currentCard];
+export const selectCurrentCard = (state: RootState) =>
+  state.deck.cards[state.deck.currentCard];
 
 export const {
   // getCards,
