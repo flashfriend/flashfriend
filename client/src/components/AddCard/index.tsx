@@ -1,5 +1,4 @@
-import { Dialog, Transition } from '@headlessui/react'
-import React, { Fragment, useState } from 'react'
+import React, { useState } from 'react'
 import AddUpdateModal from '../AddUpdateModal'
 import { useAppDispatch } from '../../app/hooks'
 import { addCardAsync } from '../../features/deck/deckSlice'
@@ -11,7 +10,7 @@ export default function AddCard({ isOpen, closeModal }: { isOpen: boolean, close
   const dispatch = useAppDispatch()
 
   const handleAddCard = async () => {
-    let userid: any = localStorage.getItem('ff_userid')
+    let userid: (string | number | null) = localStorage.getItem('ff_userid')
     if (userid) {
       userid = Number(userid)
       dispatch(addCardAsync({ userid, front, back }))

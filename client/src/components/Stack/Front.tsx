@@ -28,7 +28,7 @@ function Front({
     } else alert('Error deleting card!');
   };
 
-  const handleEdit = (e: any) => {
+  const handleEdit = (e: React.MouseEvent<HTMLElement>) => {
     openModal();
     e.stopPropagation();
   };

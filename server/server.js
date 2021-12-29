@@ -15,8 +15,6 @@ app.use(express.static(path.join(__dirname, '../client/public')));
 
 app.use(cors());
 
-// app.use(express.static(path.join(__dirname, '../client/public')));
-
 // LOGIN
 app.get('/login', (req, res) => {
   res.redirect('/auth/github');
@@ -63,7 +61,9 @@ app.get('/api/userid', (req,res) => {
 })
 
 // IS AUTH CHECK
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, '../client/public', 'index.html')))
 app.use('/home', authController.isLoggedIn, (req, res) => res.sendFile(path.join(__dirname, '../client/public', 'index.html')));
+
 
 // LOGOUT
 app.get('/logout', (req, res) => {
@@ -72,8 +72,22 @@ app.get('/logout', (req, res) => {
   req.session = null;
   req.user = null;
   req.logout();
-  res.redirect('/');
+  res.sendStatus(205);
 })
+
+// app.get('/logout', (req, res) => {
+//   req.logout();
+//   console.log('LOGOUT REQ.SESSION: ', req.session);
+//   if (req.session) {
+//     req.session.destroy(function (err) {
+//       if (err) {
+//         console.log(err)
+//       }
+//       'LOGGED OUT';
+//       res.redirect('/');
+//     });
+//   }
+// });
 
 // ERROR HANDLING
 app.use((req, res) => res.status(404).send('Not found'));
