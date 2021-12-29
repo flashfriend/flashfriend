@@ -9,16 +9,16 @@ router.get('/:userId', cardsController.getCards, (req, res) => {
   res.status(200).json(res.locals)
 })
 
-// router.post('/:userId', cardsController.addCard, (req, res) => {
-//   res.status(200).redirect('/home')
-// })
+router.post('/:userId', cardsController.addCard, (req, res) => {
+  res.status(200).json(res.locals)
+})
 
-// router.put('/edit', cardsController.editCard, (req, res) => {
-// res.status(200).redirect('/home')
-// })
+router.put('/:userId/:cardId', cardsController.editCard, (req, res) => {
+res.status(200).json(res.locals)
+})
 
-// router.delete('/delete', cardsController.deleteCard, (req, res) => {
-// res.status(200).redirect('/home')
-// })
+router.delete('/:userId/:cardId', cardsController.deleteCard, (req, res) => {
+res.status(200).json(res.locals)
+})
 
 module.exports = router;
