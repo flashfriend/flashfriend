@@ -2,6 +2,8 @@ import React from 'react'
 
 function Front({ text, front_id, openModal, flipped, setFlipped }: { text: string, front_id: number, openModal: () => void, flipped: string, setFlipped: (flipped: string) => void }) {
 
+  // TODO: Edit card functionality
+
   return (
     <div className='flex flex-col p-3 h-full z-70 relative' 
       onClick={(e) => {
