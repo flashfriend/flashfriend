@@ -11,7 +11,6 @@ router.get('/:userId', cardsController.getCards, (req, res) => {
 })
 
 router.post('/:userId', 
-  authController.isLoggedIn,
   cardsController.addCard, (req, res) => {
     console.log('addCard')
     res.status(200).json(res.locals.card)
