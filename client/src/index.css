@@ -8,6 +8,7 @@
   --dark: #25242A;
   background-color: var(--primary);
   overflow: hidden;
+  color: rgb(23 23 23);
 }
 
 body {
