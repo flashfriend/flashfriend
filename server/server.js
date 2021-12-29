@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const bodyParser = require('body-parser')
 const cors = require('cors');
 const app = express();
 const PORT = 3000;
@@ -8,6 +9,7 @@ const cardsController = require('./controllers/cardsController');
 
 // HANDLE STATIC FILES + JSON + CORS
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../client/public')));
 
@@ -33,13 +35,8 @@ app.get('/logout', (req, res) => {
 })
 
 app.use('*',  (req, res, next)=> {
-  if (req._parsedOriginalUrl.pathname.includes('/auth') || req._parsedOriginalUrl.pathname.includes('/api')) {
-    console.log(req._parsedOriginalUrl.pathname)
-    next()
-  } else {
-    console.log(req._parsedOriginalUrl.pathname)
-    res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
-  }
+  if (req._parsedUrl.pathname.includes('/auth') || req._parsedUrl.pathname.includes('/api')) next()
+  else res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
 });
 
 // Card Router
@@ -77,22 +74,20 @@ app.get(
 );
 
 app.get('/api/userid', (req,res) => {
-  console.log('HIT /API/USER ENDPOINT: ', req.user);
   res.status(230).json(req.user.id);
 })
-
 
 // ERROR HANDLING
 app.use((req, res) => res.status(404).send('Not found'));
 
 app.use((err, req, res, next) => {
+  console.log(err)
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
     status: 500,
     message: { err: 'An error occurred' },
   };
   const errorObj = Object.assign({}, defaultErr, err);
-  console.log(errorObj.log);
   return res.status(errorObj.status).json(errorObj.message);
 });
 
