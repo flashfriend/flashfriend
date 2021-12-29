@@ -1,8 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+<<<<<<< HEAD
+import { RootState } from '../../app/store';
+=======
 import { createReadStream } from 'fs';
 import { ErrorInfo } from 'react';
 import { RootState, AppThunk } from '../../app/store';
 import { sampleCards } from '../../data/sampleCards';
+>>>>>>> dde000e9f7e6576590b582ce38bd6b42e98bca38
 
 export interface Card {
   id: number;
