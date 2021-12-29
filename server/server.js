@@ -4,7 +4,6 @@ const cors = require('cors');
 const app = express();
 const PORT = 3000;
 
-const cardsController = require('./controllers/cardsController');
 
 // HANDLE STATIC FILES + JSON + CORS
 app.use(express.json());
