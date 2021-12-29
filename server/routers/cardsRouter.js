@@ -4,9 +4,14 @@ const db = require('../models/cardModel');
 
 const router = express.Router();
 
+<<<<<<< HEAD
+router.get('/', cardsController.getCards, (req, res) => {
+  res.status(200).json(res.locals.deck);
+=======
 
 router.get('/:userId', cardsController.getCards, (req, res) => {
   res.status(200).json(res.locals)
+>>>>>>> d655e853d854fcae7dad746e1260e132856501ca
 })
 
 router.post('/add', cardsController.addCard, (req, res) => {
