@@ -4,7 +4,7 @@ const cardsController = {};
 
 cardsController.getCards = (req, res, next) => {
   const { userId } = req.params;
-  const queryStr = 'SELECT * FROM cards WHERE userid = $1';
+  const queryStr = 'SELECT * FROM cards WHERE userid = ($1)';
   const values = [userId];
 
   try {
@@ -49,12 +49,11 @@ cardsController.editCard = (req, res, next) => {
   if (!req.body) return next();
 
   const { cardInfo } = req.body;
-  const queryStr = 'UPDATE cards SET key = value WHERE id = ($1)';
+  const queryStr = 'UPDATE cards SET front = ($2), back = ($3), tags = ($4), WHERE id = ($1) RETURNING *';
   const values = [];
 
   for (let key in cardInfo) {
-    values.push(cardInfo(key));
-    
+    values.push(cardInfo[key]);
   }
 
   try {
@@ -73,9 +72,9 @@ cardsController.deleteCard = (req, res, next) => {
   // manually accessing route without sending card id
   if (!req.body) return next();
 
-  const { userId } = req.params;
-  const queryStr = 'SELECT * FROM cards WHERE userid = $1';
-  const values = [userId];
+  const { cardId } = req.params;
+  const queryStr = 'DELETE FROM cards WHERE id = ($1) RETURNING *';
+  const values = [cardId];
 
   try {
     db.query(queryStr, values)
