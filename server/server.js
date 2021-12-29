@@ -38,17 +38,6 @@ app.get('/logout', (req, res) => {
 
 app.use('*',  (req, res, next)=> {
   if (req._parsedOriginalUrl.pathname.includes('/auth') || req._parsedOriginalUrl.pathname.includes('/api')) {
-<<<<<<< HEAD
-    next()
-  } else res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
- });
-
-// Card Router
-const cardsRouter = require('./routers/cardsRouter');
-app.use('/api/cards', cardsRouter);
-
-// AUTH AND SESSION START
-=======
     console.log(req._parsedOriginalUrl.pathname)
     next()
   } else {
@@ -62,7 +51,6 @@ const cardsRouter = require('./routers/cardsRouter');
 app.use('/api/cards', cardsRouter);
 
 // AUTH AND SESSION
->>>>>>> d655e853d854fcae7dad746e1260e132856501ca
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 require('./passport');
