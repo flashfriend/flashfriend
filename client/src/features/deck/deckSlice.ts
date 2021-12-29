@@ -39,7 +39,7 @@ const initialState: DeckState = {
 
 export const getDeckAsync = createAsyncThunk('deck/fetchDeck', 
   async () => {
-    const user = await localStorage.getItem("ff_userid")
+    const user = localStorage.getItem("ff_userid")
     console.log('user: ', user)
     const response = await fetch(`/api/cards/${user}`).then(data => data.json())
     console.log("get deck async", response.deck);
@@ -110,7 +110,7 @@ export const selectDeck = (state: RootState) => state.deck.cards;
 export const selectCurrentCard = (state: RootState) => state.deck.cards[state.deck.currentCard];
 
 export const {
-  getCards,
+  // getCards,
   addCard,
   deleteCard,
   getNextCard,
