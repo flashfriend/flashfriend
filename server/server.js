@@ -18,14 +18,6 @@ app.get('/login', (req, res) => {
   res.redirect('/auth/github');
 });
 
-app.get('/logout', (req, res) => {
-  req.session = null;
-  req.logout();
-  res.redirect('/');
-});
-
-app.get('/home', authController.isLoggedIn, (req, res) => res.sendFile(path.join(__dirname, '../client/public', 'index.html')));
-
 // Card Router
 const cardsRouter = require('./routers/cardsRouter');
 app.use('/api/cards', cardsRouter);
@@ -64,6 +56,33 @@ app.get(
 app.get('/api/userid', (req,res) => {
   res.status(230).json(req.user.id);
 })
+
+// IS AUTH CHECK
+app.use('/home', authController.isLoggedIn, (req, res) => res.sendFile(path.join(__dirname, '../client/public', 'index.html')));
+
+// LOGOUT
+app.get('/logout', (req, res) => {
+  console.log('LOGOUT REQUEST USER: ', req.user)
+  console.log('LOGOUT REQUEST SESSION: ', req.session)
+  req.session = null;
+  req.user = null;
+  req.logout();
+  res.redirect('/');
+})
+
+// app.get('/logout', (req, res) => {
+//   req.logout();
+//   console.log('LOGOUT REQ.SESSION: ', req.session);
+//   if (req.session) {
+//     req.session.destroy(function (err) {
+//       if (err) {
+//         console.log(err)
+//       }
+//       'LOGGED OUT';
+//       res.redirect('/');
+//     });
+//   }
+// });
 
 // ERROR HANDLING
 app.use((req, res) => res.status(404).send('Not found'));
