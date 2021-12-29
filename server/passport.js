@@ -16,7 +16,7 @@ passport.use(new GitHubStrategy({
 }, (accessToken, refreshToken, profile, done) => {
   // TODO: 
   // SQL 
-  const query = `INSERT INTO users (userid) VALUES (${profile.id})`;
+  const query = `INSERT INTO users (id) VALUES (${profile.id})`;
   
 
   return done(null, profile);

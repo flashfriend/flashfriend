@@ -7,17 +7,6 @@ const PORT = 3000;
 // HANDLE STATIC FILES + JSON + CORS
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-<<<<<<< HEAD
-app.use(express.static(path.join(__dirname, '../client/public')));
-
-// Card Router
-const cardsRouter = require('./routers/cardsRouter');
-const cardsController = require('./controllers/cardsController');
-app.get('/api/cards', cardsController.getCards, (req, res) => {
-  res.status(200).json(res.locals.deck)
-});
-
-=======
 app.use(cors());
 
 app.use(express.static(path.join(__dirname, '../client/public')));
@@ -26,7 +15,6 @@ app.use(express.static(path.join(__dirname, '../client/public')));
 app.get('/login', (req, res) => {
   res.redirect('/auth/github')
 })
->>>>>>> 6abda21d7ea5c26ba088be962dbdc4dd8768da2c
 
 app.get('/logout', (req, res) => {
   req.session = null;
@@ -72,6 +60,7 @@ app.get(
 
 // CARD ROUTES
 app.get('/cards', (req, res) => {
+  console.log(req.user);
   // DISPLAY ALL CARDS
 })
 app.post('/cards', (req, res) => {
