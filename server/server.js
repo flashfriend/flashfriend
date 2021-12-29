@@ -12,11 +12,14 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../client/public')));
+
 app.use(cors());
 
+// LOGIN
 app.get('/login', (req, res) => {
   res.redirect('/auth/github');
-});
+})
+
 
 // Card Router
 const cardsRouter = require('./routers/cardsRouter');
@@ -48,17 +51,19 @@ app.get(
   '/auth/github/callback',
   passport.authenticate('github', { failureRedirect: '/auth/error' }),
   function (req, res) {
-    console.log(req.user.id)
     res.redirect('/home')
   }
 );
 
+// FETCH USERID API
 app.get('/api/userid', (req,res) => {
   res.status(230).json(req.user.id);
 })
 
 // IS AUTH CHECK
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, '../client/public', 'index.html')))
 app.use('/home', authController.isLoggedIn, (req, res) => res.sendFile(path.join(__dirname, '../client/public', 'index.html')));
+
 
 // LOGOUT
 app.get('/logout', (req, res) => {
@@ -67,7 +72,7 @@ app.get('/logout', (req, res) => {
   req.session = null;
   req.user = null;
   req.logout();
-  res.redirect('/');
+  res.sendStatus(205);
 })
 
 // app.get('/logout', (req, res) => {
