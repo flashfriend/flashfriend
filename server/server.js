@@ -4,6 +4,7 @@ const cors = require('cors');
 const app = express();
 const PORT = 3000;
 
+const authController = require('./controllers/authController');
 
 // HANDLE STATIC FILES + JSON + CORS
 app.use(express.json());
@@ -31,7 +32,7 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 })
 
-app.use('*',  (req, res, next)=> {
+app.use('*', authController.isLoggedIn, (req, res, next)=> {
   if (req._parsedOriginalUrl.pathname.includes('/auth') || req._parsedOriginalUrl.pathname.includes('/api')) {
     console.log(req._parsedOriginalUrl.pathname)
     next()
