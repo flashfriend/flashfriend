@@ -47,6 +47,43 @@ export const getDeckAsync = createAsyncThunk('deck/fetchDeck',
   }
 );
 
+export const updateCardAsync = createAsyncThunk('deck/editCard',
+  async (card: Card) => {
+    const user = localStorage.getItem('ff_userid');
+    try {
+      const {id, creator_id, front, back, tags} = card;
+      const response = await fetch(`/api/cards/${user}/${card.id}`, {
+        method: 'PUT',
+        body: card 
+      }).then(data => data.json())
+      console.log('update response: ', response)
+      return response.deck
+      //check to see what cardController returns for this...
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  )
+
+export const deleteCardAsync = createAsyncThunk('deck/deleteCard',
+  async (card: Card) => {
+    const user = localStorage.getItem('ff_userid');
+    try {
+      const {id, creator_id, front, back, tags} = card;
+      const response = await fetch(`/api/cards/${user}/${card.id}`, {
+        method: 'DELETE',
+        // body: card 
+      }).then(data => data.json())
+      console.log('delete response: ', response)
+      return response.deck
+      //check to see what cardController returns for this...
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  )
+
+export const deleteCareAsync = createAsyncThunk
 
 export const deckSlice = createSlice({
   name: 'deck',
@@ -63,11 +100,11 @@ export const deckSlice = createSlice({
       state.cardCount += 1;
       // put request
     },
-    deleteCard: (state, action: PayloadAction<Card>) => {
-      console.log('Deleting card');
-      // delete request
-      // remove card from cards array
-    },
+    // deleteCard: (state, action: PayloadAction<Card>) => {
+    //   console.log('Deleting card');
+    //   // delete request
+    //   // remove card from cards array
+    // },
     getNextCard: (state) => {
       console.log('Getting Next Card');
       state.currentCard += 1;
@@ -99,8 +136,18 @@ export const deckSlice = createSlice({
     builder
       .addCase(getDeckAsync.fulfilled, (state, action: PayloadAction<Card[]>) => {
         console.log('payload: ', action.payload)
-        state.cards = action.payload;
-        state.cardCount = action.payload.length;
+        if (action.payload.length > 0) {
+          state.cards = action.payload;
+          state.cardCount = action.payload.length;
+        }
+      })
+      .addCase(updateCardAsync.fulfilled, (state, action) => {
+        console.log('update payload:  ', action.payload)
+        //TODO: finish
+      })
+      .addCase(deleteCardAsync.fulfilled, (state, action) => {
+        console.log('delete payload:  ', action.payload)
+        //TODO: finish
       })
   }
 });
