@@ -17,8 +17,7 @@ function Front({
 }) {
   const dispatch = useAppDispatch();
 
-  const handleDelete = (e: (React.MouseEvent<HTMLElement> | React.TouchEvent<HTMLButtonElement>)): void => {
-    e.stopPropagation();
+  const handleDelete = (e: (React.MouseEvent<HTMLElement> | React.TouchEvent<HTMLElement>)): void => {
     let userid: string | number | null = localStorage.getItem('ff_userid');
     if (userid) {
       userid = Number(userid);
@@ -26,25 +25,26 @@ function Front({
         .then((data) => console.log('handleDelete: ', data))
         .then(() => window.location.reload());
     } else alert('Error deleting card!');
+    e.stopPropagation();
   };
 
-  const handleEdit = (e: React.MouseEvent<HTMLElement> | React.TouchEvent<HTMLButtonElement>): void => {
+  const handleEdit = (e: React.MouseEvent<HTMLElement> | React.TouchEvent<HTMLElement>): void => {
     openModal();
     e.stopPropagation();
   };
 
   return (
     <div
-      className="flex flex-col p-3 h-full z-70 relative"
-      onTouchStart={() => {
+      className="flex flex-col p-3 h-full z-70 relative cursor-pointer"
+      onClick={() => {
         flipped === 'front' ? setFlipped('back') : setFlipped('front');
       }}
-      onClick={() => {
+      onTouchStart={() => {
         flipped === 'front' ? setFlipped('back') : setFlipped('front');
       }}
     >
       <button
-        className="absolute -right-8 -top-8 z-100"
+        className="absolute -right-8 -top-8 z-100 cursor-pointer"
         onClick={(e) => handleDelete(e)}
         onTouchStart={(e) => handleDelete(e)}
       >
@@ -66,7 +66,7 @@ function Front({
       <div className="flex-1 font-semibold text-xl">
         <h3>{text}</h3>
       </div>
-      <button className="self-end z-90" onClick={(e) => handleEdit(e)} onTouchStart={(e) => handleEdit(e)}>
+      <button className="self-end z-90 cursor-pointer" onClick={(e) => handleEdit(e)} onTouchStart={(e) => handleEdit(e)}>
         <svg
           className="w-6 h-6"
           data-darkreader-inline-stroke=""

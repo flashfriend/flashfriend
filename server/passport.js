@@ -22,6 +22,7 @@ passport.use(new GitHubStrategy({
   const values = [ profile.id, profile.displayName ];
 
   try {
+    
     db.query(queryStr, values)
       .then(data => {
         // console.log(data);
